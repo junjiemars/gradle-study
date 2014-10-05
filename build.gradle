@@ -1,0 +1,41 @@
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.5
+    version = '1.0'
+
+    repositories {
+        //mavenCentral()
+        maven {
+            //url 'http://repo2.maven.org/maven2'
+            url 'http://mirrors.ibiblio.org/pub/mirrors/maven2'
+        }
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.11'
+    }
+
+    jar {
+        manifest {
+            attributes('Build-By': "$System.env.USER@" + hostname(),
+                    'Build-version': jar_version())
+        }
+    }
+
+}
+
+
+String hostname() {
+    InetAddress.getLocalHost().getHostName()
+}
+
+String vcs_version() {
+    def git = 'git describe --tags --always HEAD'.execute()
+    git.waitFor()
+    git.in.text
+}
+
+String jar_version() {
+    String.format('%s-%s', version, vcs_version())
+}
