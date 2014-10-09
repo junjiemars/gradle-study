@@ -1,8 +1,9 @@
+version = '1.0'
+
 subprojects {
     apply plugin: 'java'
 
     sourceCompatibility = 1.5
-    version = '1.0'
 
     repositories {
         //mavenCentral()
@@ -19,7 +20,7 @@ subprojects {
     jar {
         manifest {
             attributes('Build-By': "$System.env.USER@" + hostname(),
-                    'Build-version': jar_version())
+                       'Build-version': jar_version())
         }
     }
 
@@ -31,9 +32,8 @@ String hostname() {
 }
 
 String vcs_version() {
-    def git = 'git describe --tags --always HEAD'.execute()
-    git.waitFor()
-    git.in.text
+    // get git version & trim the tailing newline
+    'git describe --tags --always HEAD'.execute().text.trim()
 }
 
 String jar_version() {
