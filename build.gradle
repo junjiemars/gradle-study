@@ -37,5 +37,5 @@ String vcs_version() {
 }
 
 String jar_version() {
-    String.format('%s-%s', version, vcs_version())
+    "$version-" + vcs_version()
 }
