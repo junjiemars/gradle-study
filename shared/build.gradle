@@ -8,6 +8,6 @@ repositories {
 }
 
 dependencies {
+    compile fileTree(dir: 'lib', include: ['*.jar'])
     testCompile 'junit:junit:4.11'
-    compile project(":shared")
 }
