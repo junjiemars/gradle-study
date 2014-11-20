@@ -32,6 +32,12 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            Thread.currentThread().wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void simple(Hello.Processor p) {
