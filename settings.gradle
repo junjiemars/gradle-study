@@ -1,3 +1,5 @@
 //rootProject.name = 'gradle-study'
-include "shared", "api"
+include "shared", "api", "client"
+
+include 'client'
 
