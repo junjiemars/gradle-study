@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.6
 version = '1.0'
 
 repositories {
@@ -10,4 +10,8 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.11'
     compile project(":shared")
+    compile 'org.slf4j:slf4j-simple:1.6.1'
+    compile('org.apache.thrift:libthrift:0.9.2') {
+        transitive = true
+    }
 }
