@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import static java.lang.System.out;
 
@@ -15,7 +18,8 @@ public final class Core {
         final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input = null;
         int x = 0, y = 0;
-        final Stack<Integer> s = new Stack<Integer>();
+        final Stack<Integer> operators = new Stack<Integer>();
+        final Queue<Integer> operands = new LinkedList<Integer>();
 
         do {
             input = read_line(reader);
@@ -25,25 +29,21 @@ public final class Core {
             }
 
             if ("clear".equals(input)) {
-                s.clear();
+                operators.clear();
             } else if ("+".equals(input)) {
-                s.push(s.pop() + s.pop());
+                add(operands);
             } else if ("-".equals(input)) {
-                x = s.pop();
-                y = s.pop();
-                s.push(y - x);
+                minus(operands);
             } else if ("*".equals(input)) {
-                s.push(s.pop() * s.pop());
+                multiple(operands);
             } else if ("/".equals(input)) {
-                x = s.pop();
-                y = s.pop();
-                s.push(y / x);
+                divide(operands);
             } else if ("=".equals(input)) {
-                out.println(s.peek());
+                out.println(operands.peek());
             } else {
                 try {
                     x = Integer.parseInt(input);
-                    s.push(x);
+                    operands.add(x);
                 } catch (NumberFormatException e) {
 
                 }
@@ -65,6 +65,53 @@ public final class Core {
         }
 
         return (null);
+    }
+
+    private static final int add(final Queue<Integer> q) {
+        int sum = 0;
+        while (!q.isEmpty()) {
+            sum += q.poll();
+        }
+
+        q.add(sum);
+        return (sum);
+    }
+
+    private static final int minus(final Queue<Integer> q) {
+        int m = 0;
+        while (!q.isEmpty()) {
+            m -= q.poll();
+        }
+
+        q.add(m);
+        return (m);
+    }
+
+    private static final int multiple(final Queue<Integer> q) {
+        int m = 1;
+        while (!q.isEmpty()) {
+            m *= q.poll();
+        }
+
+        q.add(m);
+        return (m);
+    }
+
+    private static final int divide(final Queue<Integer> q) {
+        if (q.isEmpty())
+            return (0);
+
+        int d = q.poll();
+        while (!q.isEmpty()) {
+            d /= q.poll();
+        }
+
+        q.add(d);
+        return (d);
+    }
+
+    private static final int equal(final Queue<Integer> q) {
+        return (q.peek());
     }
 
     private Core() {
