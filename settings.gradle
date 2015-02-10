@@ -3,3 +3,5 @@ include "shared", "api", "client"
 
 include 'client'
 
+include 'rpn'
+
