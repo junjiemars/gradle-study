@@ -12,13 +12,14 @@ A simple calculator implements via [Reverse Polish Nation](https://en.wikipedia.
 ```
 ## How to play
 run app, then input:
+```
 4
 2
 -
 5
 *
 =
-
+```
 'clear': to clear the calculated result
 
 'quit': to quit the app
