@@ -5,3 +5,6 @@ include "client"
 include "rpn"
 include "server"
 
+include 'netty/servers'
+rootProject.children.find { it.name == 'netty/servers' }.name = 'servers'
+
