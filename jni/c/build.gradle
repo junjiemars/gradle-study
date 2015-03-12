@@ -1,0 +1,48 @@
+apply plugin: 'c'
+
+libraries {
+    hello {}
+}
+
+//executables {
+//    main {}
+//}
+
+sources {
+    main.c.lib libraries.hello
+}
+
+model {
+    toolChains {
+        gcc(Gcc) {
+
+        }
+        clang(Clang) {
+
+        }
+        visualCpp(VisualCpp) {
+
+        }
+    }
+}
+
+binaries.all {
+    // Define toolchain-specific compiler and linker options
+    if (toolChains in Gcc) {
+        cCompiler.args "-O2"
+        linker.args "-Xlinker", "-S"
+    }
+    if (toolChains in VisualCpp) {
+        cCompiler.args "/Zi"
+        linker.args "/DEBUG"
+    }
+}
+
+// For any shared library binaries built with Visual C++,
+// define the DLL_EXPORT macro
+binaries.withType(SharedLibraryBinarySpec) {
+    if (toolChain in VisualCpp) {
+        cCompiler.args "/Zi"
+        cCompiler.define "DLL_EXPORT"
+    }
+}
