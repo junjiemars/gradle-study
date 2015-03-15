@@ -8,17 +8,10 @@ include "server"
 include 'netty/servers'
 rootProject.children.find { it.name == 'netty/servers' }.name = 'servers'
 
-include 'jni'
-
 include 'jni/c'
 rootProject.children.find { it.name == 'jni/c' }.name = 'jni-c'
 
 include 'jni/j'
 rootProject.children.find { it.name == 'jni/j' }.name = 'jni-java'
 
-include 'jni/jni-java'
-rootProject.children.find { it.name == 'jni/jni-java' }.name = 'jni-java'
-
-include 'jni/j'
-rootProject.children.find { it.name == 'jni/j' }.name = 'jni-java'
 
