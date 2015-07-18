@@ -1,3 +1,5 @@
+version = '1.0'
+
 subprojects {
     apply plugin: 'java'
 
@@ -18,8 +20,13 @@ subprojects {
 
     jar {
         manifest {
-            attributes('Build-By': "$System.env.USER@" + hostname(),
-                    'Build-version': jar_version())
+            attributes(
+                    'Create-By': System.getProperty('java.vendor') + ' ' + System.getProperty('java.version'),
+                    'Build-By': "$System.env.USER@" + hostname(),
+                    'Build-version': artifact_version(),
+                    'Build-Date': new Date(),
+                    'Main-Class': "${System.getProperty('entry.class')/* ?: 'Core' */}"
+            )
         }
     }
 
@@ -31,11 +38,10 @@ String hostname() {
 }
 
 String vcs_version() {
-    def git = 'git describe --tags --always HEAD'.execute()
-    git.waitFor()
-    git.in.text
+    'git describe --tags --always HEAD'.execute().text.trim()
 }
 
-String jar_version() {
-    String.format('%s-%s', version, vcs_version())
+String artifact_version() {
+    "$version-" + vcs_version()
 }
+
