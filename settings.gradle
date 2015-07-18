@@ -1,12 +1,12 @@
-//rootProject.name = 'gradle-study'
+//rootProject.name = 'jtools'
 include "shared"
 include "api"
 include "client"
 include "rpn"
 include "server"
 
-include 'netty/servers'
-rootProject.children.find { it.name == 'netty/servers' }.name = 'servers'
+include 'analytics/concurrency'
+rootProject.children.find { it.name == 'analytics/concurrency' }.name = 'concurrency'
 
 include 'jni/c'
 rootProject.children.find { it.name == 'jni/c' }.name = 'jni-c'

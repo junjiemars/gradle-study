@@ -1,6 +1,7 @@
-gradle-study
+jtools
 ============
 
-gradle-study project shows how to use gradle via idea ide.
+# Gradle in Practices
+
 
 client -> api -> shared
