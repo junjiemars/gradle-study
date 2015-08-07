@@ -2,7 +2,7 @@ import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 
-
+import static java.lang.System.out;
 import java.util.concurrent.Future;
 
 /**
@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
  * Date: 8/6/15.
  * Target: <>
  */
-public class Core {
+public class AsyncHttpClients {
     public static void main(String[] args) {
         AsyncHttpClient ahc = new AsyncHttpClient();
         Response r0 = null, r1 = null;
@@ -24,7 +24,7 @@ public class Core {
                         }
                     });
             r0 = f0.get();
-            System.out.println(r0.getResponseBody());
+            out.println(r0.getResponseBody());
 
             Future<Response> f1 = ahc.preparePost("http://www.ning.com").execute(
                     new AsyncCompletionHandler<Response>() {
@@ -35,9 +35,9 @@ public class Core {
                     }
             );
             r1 = f1.get();
-            System.out.println(r1.getResponseBody());
+            out.println(r1.getResponseBody());
         } catch (Exception ie) {
-            System.out.println(ie);
+            out.println(ie);
         }
     }
 }
