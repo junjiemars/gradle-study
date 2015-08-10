@@ -1,23 +1,23 @@
 apply plugin: 'java'
 //apply plugin: 'application'
 
-sourceCompatibility = 1.6
-version = '1.0'
+//sourceCompatibility = 1.6
+//version = '1.0'
 //mainClassName = 'org.tao.clt.Client'
 
-repositories {
-    mavenCentral()
-}
+//repositories {
+//    mavenCentral()
+//}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile project(':api')
-    runtime project(':api')
+//    runtime project(':api')
     compile 'gnu.getopt:java-getopt:1.0.13'
 }
 
 
-task(run, dependsOn: jar, type: JavaExec) {
-    main = 'org.tao.clt.Client'
-    classpath = sourceSets.main.runtimeClasspath
-}
+//task(run, dependsOn: jar, type: JavaExec) {
+//    main = 'org.tao.clt.Client'
+//    classpath = sourceSets.main.runtimeClasspath
+//}

@@ -1,9 +1,13 @@
-version = '1.0'
+//System.setProperty('slf4j.version', '1.7.12')
+System.setProperty('log4j.version', '2.1')
+
+def junit_version = '4.11'
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
-    sourceCompatibility = 1.6
+//    sourceCompatibility = 1.6
     version = '1.0'
 
     repositories {
@@ -15,7 +19,7 @@ subprojects {
     }
 
     dependencies {
-        testCompile 'junit:junit:4.11'
+        testCompile "junit:junit:$junit_version"
     }
 
     jar {
@@ -30,6 +34,52 @@ subprojects {
         }
     }
 
+    task uberjar(type: Jar, dependsOn: jar/*,dependsOn:[':compileJava',':compileGroovy'*/) {
+        from files(sourceSets.main.output.classesDir)
+        // just copy log4j2.xml to classpath,
+        // or u can specify it with -D log4j.configurationFile=<log4j2.xml-path>
+        from 'src/main/resources'
+        from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.RSA"
+
+        manifest {
+            attributes(
+                    'Create-By': System.getProperty('java.version') + ' ' + System.getProperty('java.version'),
+                    'Build-By': "$System.env.USER@" + hostname(),
+                    'Build-Version': artifact_version(),
+                    'Build-Date': new Date(),
+                    'Main-Class': "${System.getProperty('entry.class') ?: 'Core'}",
+            )
+        }
+    }
+
+    publishing {
+        repositories {
+            maven {
+                url "${rootProject.buildDir}/m2" // change to point to your repo, e.g. http://my.org/repo
+            }
+        }
+    }
+
+    allprojects {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+            sourceCompatibility = '1.6'
+            targetCompatibility = '1.6'
+        }
+
+        tasks.withType(Test) {
+            testLogging {
+//                exceptionFormat "full"
+//                showStandardStreams true
+            }
+        }
+    }
+
+    task where << {
+        configurations.compile.each { println it }
+    }
 }
 
 
@@ -38,6 +88,7 @@ String hostname() {
 }
 
 String vcs_version() {
+    // get git version & trim the tailing newline
     'git describe --tags --always HEAD'.execute().text.trim()
 }
 

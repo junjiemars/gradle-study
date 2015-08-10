@@ -1,17 +1,19 @@
-import java.util.concurrent.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import static java.lang.System.out;
+
+import java.util.concurrent.*;
 
 /**
  * Author: junjie
  * Date: 8/7/15.
  * Target: <>
  */
-public class Futures {
+public class FutureDemo {
 
     public static void main(final String[] args) {
-        //raw();
-//        task();
+        raw();
+        task();
         cancel();
     }
 
@@ -26,11 +28,11 @@ public class Futures {
         // do other things while calling long_time
         try {
             String s = future.get();
-            out.println(s);
+            _l.info(s);
         } catch (ExecutionException ee) {
-            out.println(ee);
+
         } catch (InterruptedException ie) {
-            out.println(ie);
+            _l.error(ie.getMessage(), ie);
         }
     }
 
@@ -45,11 +47,11 @@ public class Futures {
         executor.execute(future);
         try {
             String s = future.get();
-            out.println(s);
+            _l.info(s);
         } catch (ExecutionException ee) {
-            out.println(ee);
+            _l.error(ee.getMessage(), ee);
         } catch (InterruptedException ie) {
-            out.println(ie);
+            _l.error(ie.getMessage(), ie);
         }
     }
 
@@ -64,12 +66,12 @@ public class Futures {
 
         try {
             if (future.cancel(true)) {
-                out.println("canceled");
+                _l.info("#canceled");
             } else {
-                out.println(future.get());
+                _l.info(future.get());
             }
         } catch (Exception e) {
-            out.println(e);
+            _l.error(e.getMessage(), e);
         }
     }
 
@@ -80,8 +82,11 @@ public class Futures {
             Thread.sleep(5000);
             r = String.format("#long_time(sleep):%s", System.currentTimeMillis());
         } catch (InterruptedException ie) {
-            out.println(ie);
+            _l.error(ie.getMessage(), ie);
         }
         return r;
     }
+
+//    private final static Logger _l = LoggerFactory.getLogger(FutureDemo.class);
+    private final static Logger _l = LogManager.getLogger(FutureDemo.class);
 }
